@@ -7,18 +7,14 @@ headers = {
     'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Mobile Safari/537.36'
 }
 
-# Counter to limit total downloads
-total_downloads = 0
-
 # Create an 'img' folder if it doesn't exist
 if not os.path.exists('img'):
     os.makedirs('img')
 
 # Function to download images from a given page
 def getImages(page):
-    global total_downloads  # Access the global counter
-    if total_downloads >= 10:  # Stop downloading if the limit is reached
-        return
+    # Counter to limit total downloads
+    total_downloads = 0
 
     # Webpage URL
     url = f"https://www.soogif.com/gif/83205-{page}-0-0.html"
@@ -30,7 +26,7 @@ def getImages(page):
 
     # Iterate through the thumbnail links
     for url in imgUrlList:
-        if total_downloads >= 10:  # Stop downloading if the limit is reached
+        if total_downloads >= 3:  # Stop downloading if the limit is reached
             return
 
         # Send a request to the detail page of each thumbnail
@@ -52,7 +48,5 @@ def getImages(page):
         total_downloads += 1  # Increment the counter
 
 # Download images by iterating through pages
-for i in range(1, 2):
-    if total_downloads >= 10:  # Stop downloading if the limit is reached
-        break
+for i in range(1, 3):
     getImages(i)  # Call the function to download images
